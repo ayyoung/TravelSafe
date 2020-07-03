@@ -1,3 +1,4 @@
+gunicorn
 django
 asgiref==3.2.10
 pytz==2020.1
