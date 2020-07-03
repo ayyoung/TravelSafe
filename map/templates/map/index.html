@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title> M A P  B E W A R E </title>
+        <link rel="stylesheet" type="text/css" href="{% static 'map/style.css' %}">
+
+        <script type="text/javascript" src="{% static 'map/map.js' %}"></script>
+    </head>
+    <body>
+            <h1> A map that alerts you of entering high crime areas </h1>
+        <div id="textblock"> 
+             <div id="desc">
+                <ul>
+                    <li> Click on a point on the map. The map will then calculate the danger surrounding you. </li>
+                    <li> Click on your location again to restart the map</li>
+                </ul>
+            </div> 
+       </div>
+        <div id="cont">
+            <div id="map"></div>
+            <script type="text/javascript"  src="{{GOOGLE_ENDPOINT}}"></script>
+            {{GOOGLE_ENDPOINT}}
+            {% for i in reps %}
+                <script>
+                    addPoints({lat: {{i.lattitude}}, lng: {{i.longitude}}}, "{{i.crime_type}}")
+                </script>
+            {% endfor %}
+        </div>
+    </body>
+</html>
+
+ 

@@ -1,0 +1,28 @@
+html, body {
+    height:80vh;
+    margin: 0;
+    min-height: 600px;
+    min-width:800px;
+    }
+p {
+    color: green;
+    }
+
+#map {
+    display: block;
+    height: 100%;
+   }
+#cont {
+    height: 85vh;
+    width: 60vw;
+    display: block;
+    float:right;
+    padding: 15px;
+}
+#textblock {
+    height: 85vh;
+    width: 25vw;
+    display: block;
+    float: left;
+    padding: 15px;
+}
