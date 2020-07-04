@@ -8,10 +8,8 @@ function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: 41.8298 , lng: -87.6298},
         zoom: 9                 });
-    map.addListener('click', function(e) {
-      setLocation(e.latLng);
-    });
 }
+
 function addPoints(coor, typ) {
     var marker = new google.maps.Marker({
         position: {lat: coor.lat, lng: coor.lng},
@@ -24,32 +22,15 @@ function addPoints(coor, typ) {
         map: null });
     crimes.push(marker);
 }
-function setLocation(coor) {
-  if (userLoc && userDest) {
-    window.alert("Please remove the current route");
-  } else {
-        if (userLoc) {
-            userDest = new google.maps.Marker({
-                position: coor,
-                title: 'Destination',
-                map: map});
-                calcDanger(userLoc);
-                calcDanger(userDest);
-        } else {
-            userLoc = new google.maps.Marker({
-                position: coor,
-                title: 'My Location',
-                map: map});
-        }
 
-  }
-    userDest.addListener('click', function() {
-        removeLocation();
-        });
-    userLoc.addListener('click', function() {
-        removeLocation();
-        });
+function setLocation(coor) {
+  userDest = new google.maps.Marker({
+      position: {lat: coor.coords.latitude, lng: coor.coords.longitude},
+      title: 'Current Location',
+      map: map});
+  calcDanger(userDest);
 }
+
 function removeLocation() {
   userLoc.setMap(null);
   userLoc = null;
@@ -57,10 +38,10 @@ function removeLocation() {
   userDest = null;
   vic.setMap(null);
   vic = null;
-  initMap();
 }
 function calcDanger(point) {
   delt_lat = 1.0/68.68637 * 2.5;
+  console.log(point);
   user_loc = point.getPosition();
   for (i=0; i < crimes.length; i++) {
     curr_crime_loc = crimes[i].getPosition();
@@ -75,7 +56,12 @@ function calcDanger(point) {
         fillOpacity: (nearby.length / crimes.length).toFixed(100),
         strokeOpacity: 0,
         map: map,
-        center: userLoc.getPosition(),
+        center: user_loc,
         radius: 4023
         }); 
 }
+
+if (window.navigator.geolocation) {
+  window.navigator.geolocation
+  .getCurrentPosition(setLocation, console.log);
+ } 
